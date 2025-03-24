@@ -87,4 +87,33 @@ class ApiController extends Controller
             200
         );
     }
+
+    public function updateClient(Request $request)
+    {
+        // check if id is provided
+        if(!$request->id){
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message' => 'Client ID is required'
+                ],
+                400
+            );
+        }
+
+        // update client
+        $client = Client::find($request->id);
+        $client->name = $request->name;
+        $client->email = $request->email;
+        $client->save();
+
+        return response()->json(
+            [
+                'status' => 'ok',
+                'message' => 'success',
+                'data' => $client
+            ],
+            200
+        );
+    }
 }
